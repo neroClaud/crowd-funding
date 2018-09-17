@@ -1,0 +1,53 @@
+<div *ngIf="project">
+  <div class="row">
+    <div class="col-lg-12 col-xs-12">
+      <div class="col-md-7">
+        <figure>
+          <img [src]="project.imagePath" width="510" height="350">
+        </figure>
+        <br>
+        <div class="row">
+          <div class="col-xs-1">
+            <span class="glyphicon glyphicon-comment glyph"></span>
+          </div>
+          <div class="col-xs-1">
+            <h5>Comments</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="well">
+          <h3 class="text-center">{{project.title}}</h3>
+        </div>
+        <div class="row">
+          <div class="col-xs-6">
+            <p>published : {{project.dateOfPublication | date}}</p>
+          </div>
+          <div class="col-xs-6">
+            <p class="pull-right">{{project.city.name}}</p>
+          </div>
+        </div>
+        <hr>
+        <div class="col-md-3 col-xs-3">
+          <div class="form-group">
+            <input type="number" pattern="[0-9]*" class="form-control" min="0" #input1 placeholder="€">
+          </div>
+          <button class="btn btn-success btn-xs" (click)="donate(input1)">donate</button>
+        </div>
+        <div class="col-md-8 col-xs-8"  [hidden]="hide">
+          <progress-bar [progress]="getProgressData()" [color-degraded]="{'0': '#FFDE55',  '25': '#3270FF', '65': '#FF0033'}">
+          </progress-bar>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 col-xs-12">
+      <div class="col-md-6 col-xs-6">
+        <hr>
+        <app-comment [project]="project"></app-comment>
+      </div>
+    </div>
+  </div>
+</div>

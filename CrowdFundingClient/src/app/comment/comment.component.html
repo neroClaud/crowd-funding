@@ -1,0 +1,58 @@
+<div>
+  <div>
+    <button class="btn btn-default btn-block active" (click)="toggleShowDiv()">Write a comment</button>
+  </div>
+  <hr>
+  <div [@slideInOut]="animationState">
+    <form (ngSubmit)="leaveComment()">
+      <div class="form-group">
+        <input type="text" class="form-control" name="nick " placeholder="your name/pseudonim*" [(ngModel)]="comment.nick" />
+      </div>
+      <div class="form-group">
+        <textarea type="text" class="form-control" name="text" placeholder="text area*" [(ngModel)]="comment.text"></textarea>
+      </div>
+      <input type="submit" class="btn btn-default" value="Comment" />
+    </form>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-12">
+      <div *ngFor="let com of comments;let i = index">
+        <div class="panel panel-default" *ngIf="!com.reference_comment">
+          <div class="panel-heading">
+            <strong>{{com.nick}}</strong> <span class="text-muted">commented 5 days ago</span>
+          </div>
+          <div class="panel-body">
+            {{com.text}}
+            <button class="btn btn-default btn-xs pull-right" (click)="toggleShowDiv(i)">reply</button>
+          </div><!-- /panel-body -->
+          <div [@slideInOut]="toCom2[i]">
+            <form (ngSubmit)="replyComment(com,i)">
+              <div class="form-group">
+                <input type="text" class="form-control" name="nick1" placeholder="your name/pseudonim*" [(ngModel)]="newCom.nick" />
+              </div>
+              <div class="form-group">
+                <textarea type="text" class="form-control" name="text2" placeholder="text area*" [(ngModel)]="newCom.text"></textarea>
+              </div>
+              <input type="submit" class="btn btn-default btn-xs" value="comment" />
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-10 col-sm-offset-2">
+            <div *ngFor="let filter of filteredComs">
+              <div class="panel panel-default" *ngIf="filter.reference_comment.id === com.id">
+                <div class="panel-heading">
+                  <strong>{{filter.nick}}</strong> <span class="text-muted">commented 5 days ago</span>
+                </div>
+                <div class="panel-body">
+                  {{filter.text}}
+                </div><!-- /panel-body -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

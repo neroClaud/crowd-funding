@@ -1,0 +1,11 @@
+.inline {
+    display:inline-block;
+}
+.progress-inner[_ngcontent-c2] {
+    min-width: 9%;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0px;
+    border-radius: 20px;
+    max-width: 100%;
+}

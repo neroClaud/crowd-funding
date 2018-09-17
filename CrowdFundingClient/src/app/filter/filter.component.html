@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-md-4">
+    <ion-range-slider type="double" [min]="min" [max]="max" [step]="step" #slider [from]="value1" [to]="value2"
+      (onUpdate)="update(advancedSlider,$event)" (onFinish)="update(advancedSlider,$event)" (onChange)="finish(advancedSlider,$event)">
+    </ion-range-slider>
+  </div>
+  <div class="col-md-4">
+    <form class="form-inline" (ngSubmit)="filter()">
+      <div class="form-group">
+        <label>city</label>
+        <select class="form-control select-mini cc" name="input-city" id="input-city" [(ngModel)]="filterObject.cityId">
+          <option *ngFor="let c of cities" [value]="c.id"> {{c.name}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <input class="form-control input-sm cc ppl" value="filter" type="submit">
+        <input class="form-control input-sm cc" value="reset" type="button" (click)="reset()">
+      </div>
+    </form>
+  </div>
+  <div class="col-md-2">
+    <div class="mm">
+      <a  [routerLink]="['/add-project']">start a project</a>
+    </div>
+  </div>
+</div>

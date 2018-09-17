@@ -1,0 +1,43 @@
+.irs-bar {
+    background :#eee;
+    height: 11px;
+    top: 20px;
+    background-position: -60px;
+}
+.irs-slider{
+    width: 12px;
+    height: 12px;
+    border-radius: 10px;
+    background-color: #fac50f;
+    border: 0;
+    
+    cursor: pointer;
+    background-position: 2px; 
+}
+
+.irs-line {
+    height: 11px;
+    top: 21px
+    
+}
+.select-mini {
+    font-size: 13px;
+    height: 30px;
+    width: 80px;
+    margin-right: 10px;
+ }
+  .cc{
+    margin-top : 9px;
+  }
+  .ppl{
+    background:burlywood;
+  }
+  .cols{
+      margin-left: 0px;
+      margin-top : 9px;
+  }
+  .mm{
+      margin-top: 17px;
+      cursor: pointer;
+  }
+  
