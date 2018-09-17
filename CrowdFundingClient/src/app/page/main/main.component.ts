@@ -46,7 +46,7 @@ export class MainComponent implements OnInit {
   isAdmin(): boolean {
     return this.auth.isAdmin();
   }
-  deleteProject(project: Project) {
+  delete(project: Project) {
     this.projectService.deleteProject(project).subscribe(
       (res) => {
         console.log(res);

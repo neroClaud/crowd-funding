@@ -41,7 +41,7 @@ export class ProjectServiceService {
     formdata.append('goal', goal.toString());
 
     let headers = new HttpHeaders();
-    headers = headers.append('Content-Type', 'multipart/form-data');
+   // headers = headers.append('Content-Type', 'multipart/form-data');
 
     return this.http.post<Project>("api/projects", formdata, { headers });
   }

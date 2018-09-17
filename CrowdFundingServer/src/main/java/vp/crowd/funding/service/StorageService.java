@@ -45,7 +45,7 @@ public class StorageService {
 	public void deleteFile(Project project) {
 		String nameOfPic = project.getImagePath().split("/")[1];
 		try {
-			File file = new File("src\\main\\images"+nameOfPic);
+			File file = new File("src\\main\\images\\" + nameOfPic);
 			if (file.delete()) {
 				System.out.println(file.getName() + " is deleted!");
 			} else {

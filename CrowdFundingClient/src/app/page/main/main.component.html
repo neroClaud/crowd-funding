@@ -18,7 +18,7 @@
             </p>
             <p>
               <button [routerLink]="['/project',project.id]" class="btn btn-primary">details</button>
-              <a href="#" class="btn btn-danger btn-xs pull-right" role="button" *ngIf="isAdmin()">delete</a>
+              <a (click)="delete(project)" class="btn btn-danger btn-xs pull-right" role="button" *ngIf="isAdmin()">delete</a>
             </p>
           </div>
         </div>

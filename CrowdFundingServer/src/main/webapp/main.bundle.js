@@ -716,7 +716,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/page/main/main.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"projects\" class=\"container-fluid\">\n  <div class=\"row\">\n    <div class=\"col-md-10 col-md-offset-1\">\n      <app-filter (filterEmiter)=\"filter($event)\"></app-filter>\n    </div>\n  </div>\n  <div class=\"row\">\n    <div class=\"col-lg-12\">\n      <hr>\n      <div class=\"col-xs-6 col-md-4\" *ngFor=\"let project of projects | paginate: { itemsPerPage: 3, currentPage: p }\">\n        <div class=\"thumbnail cc\">\n          <figure>\n            <img [src]=\"project.imagePath\" class=\"img-rounded\" width=\"330\" height=\"280\">\n          </figure>\n          <div class=\"caption\">\n            <h3><a [routerLink]=\"['/project',project.id]\">{{project.title}}</a></h3>\n            <p>{{project.description}} {{project.goal}}\n            </p>\n            <p>\n              <button [routerLink]=\"['/project',project.id]\" class=\"btn btn-primary\">details</button>\n              <a href=\"#\" class=\"btn btn-danger btn-xs pull-right\" role=\"button\" *ngIf=\"isAdmin()\">delete</a>\n            </p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div><br>\n  <div class=\"row\">\n    <div class=\"col-md-4 col-md-offset-4\">\n      <pagination-controls class=\"myPagination\" directionLinks=\"true\" autoHide=\"true\" responsive=\"true\" previousLabel=\"Previous\"\n        nextLabel=\"Next\" screenReaderPaginationLabel=\"Pagination\" screenReaderPageLabel=\"page\" (pageChange)=\"p = $event\">\n      </pagination-controls>\n    </div>\n  </div>\n</div>"
+module.exports = "<div *ngIf=\"projects\" class=\"container-fluid\">\n  <div class=\"row\">\n    <div class=\"col-md-10 col-md-offset-1\">\n      <app-filter (filterEmiter)=\"filter($event)\"></app-filter>\n    </div>\n  </div>\n  <div class=\"row\">\n    <div class=\"col-lg-12\">\n      <hr>\n      <div class=\"col-xs-6 col-md-4\" *ngFor=\"let project of projects | paginate: { itemsPerPage: 3, currentPage: p }\">\n        <div class=\"thumbnail cc\">\n          <figure>\n            <img [src]=\"project.imagePath\" class=\"img-rounded\" width=\"330\" height=\"280\">\n          </figure>\n          <div class=\"caption\">\n            <h3><a [routerLink]=\"['/project',project.id]\">{{project.title}}</a></h3>\n            <p>{{project.description}} {{project.goal}}\n            </p>\n            <p>\n              <button [routerLink]=\"['/project',project.id]\" class=\"btn btn-primary\">details</button>\n              <a (click)=\"delete(project)\" class=\"btn btn-danger btn-xs pull-right\" role=\"button\" *ngIf=\"isAdmin()\">delete</a>\n            </p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div><br>\n  <div class=\"row\">\n    <div class=\"col-md-4 col-md-offset-4\">\n      <pagination-controls class=\"myPagination\" directionLinks=\"true\" autoHide=\"true\" responsive=\"true\" previousLabel=\"Previous\"\n        nextLabel=\"Next\" screenReaderPaginationLabel=\"Pagination\" screenReaderPageLabel=\"page\" (pageChange)=\"p = $event\">\n      </pagination-controls>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -768,7 +768,7 @@ var MainComponent = (function () {
     MainComponent.prototype.isAdmin = function () {
         return this.auth.isAdmin();
     };
-    MainComponent.prototype.deleteProject = function (project) {
+    MainComponent.prototype.delete = function (project) {
         var _this = this;
         this.projectService.deleteProject(project).subscribe(function (res) {
             console.log(res);
@@ -1451,7 +1451,7 @@ var ProjectServiceService = (function () {
         formdata.append('id', id.toString());
         formdata.append('goal', goal.toString());
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]();
-        headers = headers.append('Content-Type', 'multipart/form-data');
+        // headers = headers.append('Content-Type', 'multipart/form-data');
         return this.http.post("api/projects", formdata, { headers: headers });
     };
     ProjectServiceService.prototype.getSingleProject = function (id) {
