@@ -52,8 +52,15 @@ export class ProjectServiceService {
   }
 
   updateProject(project: Project): Observable<Project> {
-    
+
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        return this.http.put<Project>(`api/projects/${project.id}`, JSON.stringify(project), { headers });
+    return this.http.put<Project>(`api/projects/${project.id}`, JSON.stringify(project), { headers });
+  }
+  deleteProject(project: Project) {
+    return this.http.delete(`api/projects/${project.id}`, { responseType: 'text' }).
+      catch((error: any) =>
+        Observable.throw(error.message || 'Server error')
+      );
+
   }
 }

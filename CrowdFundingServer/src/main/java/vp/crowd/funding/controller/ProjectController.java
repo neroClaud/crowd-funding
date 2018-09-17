@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -114,11 +115,12 @@ public class ProjectController {
 		}
 		return new ResponseEntity<>(project, HttpStatus.OK);
 	}
-	@PutMapping(value="api/projects/{id}")
-	public ResponseEntity<Project> updateProject(@RequestBody Project project,@PathVariable Long id){
-		
+
+	@PutMapping(value = "api/projects/{id}")
+	public ResponseEntity<Project> updateProject(@RequestBody Project project, @PathVariable Long id) {
+
 		Project foundPro = projectService.findOne(id);
-		if(foundPro == null) {
+		if (foundPro == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		foundPro.setCurrentAmount(project.getCurrentAmount());
@@ -128,10 +130,26 @@ public class ProjectController {
 		foundPro.setGoal(project.getGoal());
 		foundPro.setImagePath(project.getImagePath());
 		foundPro.setTitle(project.getTitle());
-		
+
 		final Project saved = projectService.save(foundPro);
-		return new ResponseEntity<>(saved,HttpStatus.OK);
-		
+		return new ResponseEntity<>(saved, HttpStatus.OK);
+
+	}
+
+	@DeleteMapping(value = "api/projects/{id}")
+	public ResponseEntity<String> deleteProject(@PathVariable Long id) {
+
+		Project forDelete = projectService.findOne(id);
+		if (forDelete == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		try {
+			storageService.deleteFile(forDelete);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		projectService.delete(id);
+		return new ResponseEntity<>("Uspesno obrisan", HttpStatus.OK);
 	}
 
 }

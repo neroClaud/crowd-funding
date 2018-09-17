@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { AuthenticationService } from './../service/authentication-service.service';
 import { City } from './../model/city';
 import { CityService } from './../services/city.service';
 import { Component, OnInit, ViewEncapsulation, Output, EventEmitter, ViewChild } from '@angular/core';
@@ -34,7 +36,6 @@ export class FilterComponent implements OnInit {
   }
   reset() {
     this.slider.update({ from: this.min, to: this.max });
-    this.filterObject.cityId = 0;
     this.filterObject = {
       cityId: 0,
       range: [this.min, this.max]
@@ -43,7 +44,7 @@ export class FilterComponent implements OnInit {
     );
   }
 
-  constructor(private cityService: CityService) { }
+  constructor(private cityService: CityService, private auth: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
     this.getCities();
@@ -62,6 +63,14 @@ export class FilterComponent implements OnInit {
   filterObject: FilterData = {
     cityId: 0,
     range: [this.min, this.max]
+  }
+
+  navigate() {
+    if (!this.auth.isLoggedIn()) {
+      this.router.navigate(['login']);
+    } else {
+      this.router.navigate(['/add-project']);
+    }
   }
 
 

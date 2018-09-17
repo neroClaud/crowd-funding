@@ -37,7 +37,7 @@ export class AuthenticationService {
         }
       });
   }
-  registration(userDTO : UserDTO): Observable<boolean> {
+  registration(userDTO: UserDTO): Observable<boolean> {
     var headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post('/api/register', JSON.stringify(userDTO), { headers })
       .map((res: any) => {
@@ -88,6 +88,14 @@ export class AuthenticationService {
     else {
       return undefined;
     }
+  }
+  isAdmin() {
+    if (this.getCurrentUser()) {
+      return this.getCurrentUser().roles.indexOf('ADMINISTRATOR') >= 0;
+    } else {
+      return false;
+    }
+
   }
 
 }

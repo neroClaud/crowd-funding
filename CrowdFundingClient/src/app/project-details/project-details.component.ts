@@ -1,7 +1,8 @@
+import { AuthenticationService } from './../service/authentication-service.service';
 import { SlideInOutAnimation } from './../shared/animations';
 import { ProjectServiceService } from './../services/project-service.service';
 import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Project } from '../model/project';
 
 
@@ -18,7 +19,11 @@ export class ProjectDetailsComponent implements OnInit {
   project: Project;
   hide: boolean;
   progressAmount: number = 0;
-  constructor(private projectService: ProjectServiceService, private route: ActivatedRoute) { }
+
+  constructor(private projectService: ProjectServiceService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private auth: AuthenticationService) { }
 
   ngOnInit() {
 
@@ -34,6 +39,9 @@ export class ProjectDetailsComponent implements OnInit {
 
   }
   donate(input: HTMLInputElement) {
+    if (!this.auth.isLoggedIn()) {
+      this.router.navigate(['login']);
+    }
     this.project.currentAmount += +input.value;
     this.put();
     input.value = '';
@@ -51,6 +59,7 @@ export class ProjectDetailsComponent implements OnInit {
     this.progressAmount = Math.round(m);
     return this.progressAmount;
   }
+
 
 
 

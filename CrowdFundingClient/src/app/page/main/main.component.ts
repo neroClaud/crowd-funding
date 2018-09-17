@@ -26,21 +26,31 @@ export class MainComponent implements OnInit {
   }
 
   loadProjects() {
-      this.projectService.getProjectsList(this.filterObject.range[0], 
-      this.filterObject.range[1], 
+    this.projectService.getProjectsList(this.filterObject.range[0],
+      this.filterObject.range[1],
       this.filterObject.cityId).subscribe(
-      (res) => {
-        this.projects = res;
-      });
+        (res) => {
+          this.projects = res;
+        });
   }
 
   try() {
     console.log(this.auth.getCurrentUser());
   }
 
-  filter(filter : FilterData){
+  filter(filter: FilterData) {
     this.filterObject = filter;
     this.loadProjects();
   }
 
+  isAdmin(): boolean {
+    return this.auth.isAdmin();
+  }
+  deleteProject(project: Project) {
+    this.projectService.deleteProject(project).subscribe(
+      (res) => {
+        console.log(res);
+        this.loadProjects();
+      })
+  }
 }

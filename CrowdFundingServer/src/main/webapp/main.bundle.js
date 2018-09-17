@@ -500,7 +500,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/filter/filter.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n  <div class=\"col-md-4\">\n    <ion-range-slider type=\"double\" [min]=\"min\" [max]=\"max\" [step]=\"step\" #slider [from]=\"value1\" [to]=\"value2\"\n      (onUpdate)=\"update(advancedSlider,$event)\" (onFinish)=\"update(advancedSlider,$event)\" (onChange)=\"finish(advancedSlider,$event)\">\n    </ion-range-slider>\n  </div>\n  <div class=\"col-md-4\">\n    <form class=\"form-inline\" (ngSubmit)=\"filter()\">\n      <div class=\"form-group\">\n        <label>city</label>\n        <select class=\"form-control select-mini cc\" name=\"input-city\" id=\"input-city\" [(ngModel)]=\"filterObject.cityId\">\n          <option *ngFor=\"let c of cities\" [value]=\"c.id\"> {{c.name}}</option>\n        </select>\n      </div>\n      <div class=\"form-group\">\n        <input class=\"form-control input-sm cc ppl\" value=\"filter\" type=\"submit\">\n        <input class=\"form-control input-sm cc\" value=\"reset\" type=\"button\" (click)=\"reset()\">\n      </div>\n    </form>\n  </div>\n  <div class=\"col-md-2\">\n    <div class=\"mm\">\n      <a  [routerLink]=\"['/add-project']\">start a project</a>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"row\">\n  <div class=\"col-md-4\">\n    <ion-range-slider type=\"double\" [min]=\"min\" [max]=\"max\" [step]=\"step\" #slider [from]=\"value1\" [to]=\"value2\"\n      (onUpdate)=\"update(advancedSlider,$event)\" (onFinish)=\"update(advancedSlider,$event)\" (onChange)=\"finish(advancedSlider,$event)\">\n    </ion-range-slider>\n  </div>\n  <div class=\"col-md-4\">\n    <form class=\"form-inline\" (ngSubmit)=\"filter()\">\n      <div class=\"form-group\">\n        <label>city</label>\n        <select class=\"form-control select-mini cc\" name=\"input-city\" id=\"input-city\" [(ngModel)]=\"filterObject.cityId\">\n          <option *ngFor=\"let c of cities\" [value]=\"c.id\"> {{c.name}}</option>\n        </select>\n      </div>\n      <div class=\"form-group\">\n        <input class=\"form-control input-sm cc ppl\" value=\"filter\" type=\"submit\">\n        <input class=\"form-control input-sm cc\" value=\"reset\" type=\"button\" (click)=\"reset()\">\n      </div>\n    </form>\n  </div>\n  <div class=\"col-md-2\">\n    <div class=\"mm\">\n      <a  (click)=\"navigate()\">start a project</a>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -509,10 +509,12 @@ module.exports = "<div class=\"row\">\n  <div class=\"col-md-4\">\n    <ion-rang
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FilterComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__services_city_service__ = __webpack_require__("../../../../../src/app/services/city.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng2_ion_range_slider__ = __webpack_require__("../../../../ng2-ion-range-slider/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng2_ion_range_slider___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng2_ion_range_slider__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__service_authentication_service_service__ = __webpack_require__("../../../../../src/app/service/authentication-service.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_city_service__ = __webpack_require__("../../../../../src/app/services/city.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_ion_range_slider__ = __webpack_require__("../../../../ng2-ion-range-slider/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_ion_range_slider___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_ng2_ion_range_slider__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -525,10 +527,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var FilterComponent = (function () {
-    function FilterComponent(cityService) {
+    function FilterComponent(cityService, auth, router) {
         this.cityService = cityService;
-        this.filterEmiter = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["EventEmitter"]();
+        this.auth = auth;
+        this.router = router;
+        this.filterEmiter = new __WEBPACK_IMPORTED_MODULE_3__angular_core__["EventEmitter"]();
         this.advancedSlider = { name: "Advanced Slider", onUpdate: undefined, onFinish: undefined };
         this.min = 0;
         this.max = 5000;
@@ -548,7 +554,6 @@ var FilterComponent = (function () {
     };
     FilterComponent.prototype.reset = function () {
         this.slider.update({ from: this.min, to: this.max });
-        this.filterObject.cityId = 0;
         this.filterObject = {
             cityId: 0,
             range: [this.min, this.max]
@@ -569,22 +574,30 @@ var FilterComponent = (function () {
         console.log(this.filterObject);
         this.filterEmiter.emit(this.filterObject);
     };
+    FilterComponent.prototype.navigate = function () {
+        if (!this.auth.isLoggedIn()) {
+            this.router.navigate(['login']);
+        }
+        else {
+            this.router.navigate(['/add-project']);
+        }
+    };
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Output"])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1__angular_core__["EventEmitter"])
+        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["Output"])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_3__angular_core__["EventEmitter"])
     ], FilterComponent.prototype, "filterEmiter", void 0);
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewChild"])('slider'),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_2_ng2_ion_range_slider__["IonRangeSliderComponent"])
+        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["ViewChild"])('slider'),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_4_ng2_ion_range_slider__["IonRangeSliderComponent"])
     ], FilterComponent.prototype, "slider", void 0);
     FilterComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["Component"])({
             selector: 'app-filter',
             template: __webpack_require__("../../../../../src/app/filter/filter.component.html"),
             styles: [__webpack_require__("../../../../../src/app/filter/filter.component.css")],
-            encapsulation: __WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewEncapsulation"].None
+            encapsulation: __WEBPACK_IMPORTED_MODULE_3__angular_core__["ViewEncapsulation"].None
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__services_city_service__["a" /* CityService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__services_city_service__["a" /* CityService */], __WEBPACK_IMPORTED_MODULE_1__service_authentication_service_service__["a" /* AuthenticationService */], __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */]])
     ], FilterComponent);
     return FilterComponent;
 }());
@@ -703,7 +716,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/page/main/main.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"projects\" class=\"container-fluid\">\n  <div class=\"row\">\n    <div class=\"col-md-10 col-md-offset-1\">\n      <app-filter (filterEmiter)=\"filter($event)\"></app-filter>\n    </div>\n  </div>\n  <div class=\"row\">\n    <div class=\"col-lg-12\">\n      <hr>\n      <div class=\"col-xs-6 col-md-4\" *ngFor=\"let project of projects | paginate: { itemsPerPage: 3, currentPage: p }\">\n        <div class=\"thumbnail cc\">\n          <figure>\n            <img [src]=\"project.imagePath\" class=\"img-rounded\" width=\"330\" height=\"280\">\n          </figure>\n          <div class=\"caption\">\n            <h3><a [routerLink]=\"['/project',project.id]\">{{project.title}}</a></h3>\n            <p>{{project.description}} {{project.goal}}\n            </p>\n            <p>\n              <button [routerLink]=\"['/project',project.id]\" class=\"btn btn-primary\">details</button>\n              <a href=\"#\" class=\"btn btn-default\" role=\"button\">Button</a>\n            </p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div><br>\n  <div class=\"row\">\n    <div class=\"col-md-4 col-md-offset-4\">\n      <pagination-controls class=\"myPagination\" directionLinks=\"true\" autoHide=\"true\" responsive=\"true\" previousLabel=\"Previous\"\n        nextLabel=\"Next\" screenReaderPaginationLabel=\"Pagination\" screenReaderPageLabel=\"page\" (pageChange)=\"p = $event\">\n      </pagination-controls>\n    </div>\n  </div>\n</div>"
+module.exports = "<div *ngIf=\"projects\" class=\"container-fluid\">\n  <div class=\"row\">\n    <div class=\"col-md-10 col-md-offset-1\">\n      <app-filter (filterEmiter)=\"filter($event)\"></app-filter>\n    </div>\n  </div>\n  <div class=\"row\">\n    <div class=\"col-lg-12\">\n      <hr>\n      <div class=\"col-xs-6 col-md-4\" *ngFor=\"let project of projects | paginate: { itemsPerPage: 3, currentPage: p }\">\n        <div class=\"thumbnail cc\">\n          <figure>\n            <img [src]=\"project.imagePath\" class=\"img-rounded\" width=\"330\" height=\"280\">\n          </figure>\n          <div class=\"caption\">\n            <h3><a [routerLink]=\"['/project',project.id]\">{{project.title}}</a></h3>\n            <p>{{project.description}} {{project.goal}}\n            </p>\n            <p>\n              <button [routerLink]=\"['/project',project.id]\" class=\"btn btn-primary\">details</button>\n              <a href=\"#\" class=\"btn btn-danger btn-xs pull-right\" role=\"button\" *ngIf=\"isAdmin()\">delete</a>\n            </p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div><br>\n  <div class=\"row\">\n    <div class=\"col-md-4 col-md-offset-4\">\n      <pagination-controls class=\"myPagination\" directionLinks=\"true\" autoHide=\"true\" responsive=\"true\" previousLabel=\"Previous\"\n        nextLabel=\"Next\" screenReaderPaginationLabel=\"Pagination\" screenReaderPageLabel=\"page\" (pageChange)=\"p = $event\">\n      </pagination-controls>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -751,6 +764,16 @@ var MainComponent = (function () {
     MainComponent.prototype.filter = function (filter) {
         this.filterObject = filter;
         this.loadProjects();
+    };
+    MainComponent.prototype.isAdmin = function () {
+        return this.auth.isAdmin();
+    };
+    MainComponent.prototype.deleteProject = function (project) {
+        var _this = this;
+        this.projectService.deleteProject(project).subscribe(function (res) {
+            console.log(res);
+            _this.loadProjects();
+        });
     };
     MainComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
@@ -860,9 +883,10 @@ module.exports = "<div *ngIf=\"project\">\n  <div class=\"row\">\n    <div class
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProjectDetailsComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__services_project_service_service__ = __webpack_require__("../../../../../src/app/services/project-service.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__service_authentication_service_service__ = __webpack_require__("../../../../../src/app/service/authentication-service.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_project_service_service__ = __webpack_require__("../../../../../src/app/services/project-service.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -875,10 +899,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ProjectDetailsComponent = (function () {
-    function ProjectDetailsComponent(projectService, route) {
+    function ProjectDetailsComponent(projectService, route, router, auth) {
         this.projectService = projectService;
         this.route = route;
+        this.router = router;
+        this.auth = auth;
         this.progressAmount = 0;
     }
     ProjectDetailsComponent.prototype.ngOnInit = function () {
@@ -891,6 +918,9 @@ var ProjectDetailsComponent = (function () {
         });
     };
     ProjectDetailsComponent.prototype.donate = function (input) {
+        if (!this.auth.isLoggedIn()) {
+            this.router.navigate(['login']);
+        }
         this.project.currentAmount += +input.value;
         this.put();
         input.value = '';
@@ -909,13 +939,16 @@ var ProjectDetailsComponent = (function () {
         return this.progressAmount;
     };
     ProjectDetailsComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Component"])({
             selector: 'app-project-details',
             template: __webpack_require__("../../../../../src/app/project-details/project-details.component.html"),
             styles: [__webpack_require__("../../../../../src/app/project-details/project-details.component.css")],
-            encapsulation: __WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewEncapsulation"].None
+            encapsulation: __WEBPACK_IMPORTED_MODULE_2__angular_core__["ViewEncapsulation"].None
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__services_project_service_service__["a" /* ProjectServiceService */], __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_project_service_service__["a" /* ProjectServiceService */],
+            __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* ActivatedRoute */],
+            __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_0__service_authentication_service_service__["a" /* AuthenticationService */]])
     ], ProjectDetailsComponent);
     return ProjectDetailsComponent;
 }());
@@ -1146,6 +1179,14 @@ var AuthenticationService = (function () {
             return undefined;
         }
     };
+    AuthenticationService.prototype.isAdmin = function () {
+        if (this.getCurrentUser()) {
+            return this.getCurrentUser().roles.indexOf('ADMINISTRATOR') >= 0;
+        }
+        else {
+            return false;
+        }
+    };
     AuthenticationService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_common_http__["b" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_3__jwt_utils_service__["a" /* JwtUtilsService */]])
@@ -1364,8 +1405,9 @@ var CommentService = (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProjectServiceService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Rx__ = __webpack_require__("../../../../rxjs/_esm5/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1377,18 +1419,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var ProjectServiceService = (function () {
     function ProjectServiceService(http) {
         this.http = http;
     }
     ProjectServiceService.prototype.getProjects = function (page) {
-        var params = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["e" /* HttpParams */]();
+        var params = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpParams */]();
         params = params.append('page', page.toString());
         params = params.append('size', '3');
         return this.http.get('api/projects', { params: params });
     };
     ProjectServiceService.prototype.getProjectsList = function (first, second, cityId) {
-        var params = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["e" /* HttpParams */]();
+        var params = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpParams */]();
         if (+first) {
             params = params.append('first', first.toString());
         }
@@ -1407,7 +1450,7 @@ var ProjectServiceService = (function () {
         formdata.append('description', description);
         formdata.append('id', id.toString());
         formdata.append('goal', goal.toString());
-        var headers = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["d" /* HttpHeaders */]();
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]();
         headers = headers.append('Content-Type', 'multipart/form-data');
         return this.http.post("api/projects", formdata, { headers: headers });
     };
@@ -1415,12 +1458,18 @@ var ProjectServiceService = (function () {
         return this.http.get("api/projects/" + id);
     };
     ProjectServiceService.prototype.updateProject = function (project) {
-        var headers = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["d" /* HttpHeaders */]({ 'Content-Type': 'application/json' });
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]({ 'Content-Type': 'application/json' });
         return this.http.put("api/projects/" + project.id, JSON.stringify(project), { headers: headers });
     };
+    ProjectServiceService.prototype.deleteProject = function (project) {
+        return this.http.delete("api/projects/" + project.id, { responseType: 'text' }).
+            catch(function (error) {
+            return __WEBPACK_IMPORTED_MODULE_0_rxjs_Rx__["a" /* Observable */].throw(error.message || 'Server error');
+        });
+    };
     ProjectServiceService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["b" /* HttpClient */]])
+        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]])
     ], ProjectServiceService);
     return ProjectServiceService;
 }());

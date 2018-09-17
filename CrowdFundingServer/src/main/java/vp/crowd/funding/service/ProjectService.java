@@ -33,7 +33,7 @@ public class ProjectService {
 		return projectRepository.save(project);
 	}
 
-	public void remove(Long id) {
+	public void delete(Long id) {
 		projectRepository.delete(id);
 	}
 	public List<Project> findByGoalBetween(double first,double second){
